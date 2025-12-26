@@ -8,11 +8,13 @@ public partial class AutoServiceContext : DbContext
 {
     public AutoServiceContext()
     {
+        Database.EnsureCreated();
     }
 
     public AutoServiceContext(DbContextOptions<AutoServiceContext> options)
         : base(options)
     {
+        Database.EnsureCreated();
     }
 
     public virtual DbSet<Client> Clients { get; set; }

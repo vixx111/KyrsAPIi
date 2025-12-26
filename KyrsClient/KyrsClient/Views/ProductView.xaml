@@ -1,0 +1,79 @@
+﻿<Window x:Class="KyrsClient.Views.ProductView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:KyrsClient.ViewModels"
+        mc:Ignorable="d"
+        Title="Управление товарами" Height="600" Width="900"
+        Background="#444"
+        WindowStartupLocation="CenterScreen">
+    
+
+    <Window.DataContext>
+        <local:ProductViewModel/>
+    </Window.DataContext>
+
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,10">
+            <Button Content="Добавить" Command="{Binding AddCommand}" 
+                    Width="100" Margin="0,0,10,0" Padding="10,5"/>
+            <Button Content="Изменить" Command="{Binding EditCommand}" 
+                    CommandParameter="{Binding Selected}"
+                    Width="100" Margin="0,0,10,0" Padding="10,5"/>
+            <Button Content="Удалить" Command="{Binding DeleteCommand}" 
+                    CommandParameter="{Binding Selected}"
+                    Width="100" Margin="0,0,10,0" Padding="10,5"/>
+            <Button Content="Обновить" Command="{Binding RefreshCommand}" 
+                    Width="100" Padding="10,5"/>
+        </StackPanel>
+
+        <DataGrid Grid.Row="1" 
+                  ItemsSource="{Binding ProductList}"
+                  SelectedItem="{Binding Selected}"
+                  AutoGenerateColumns="False"
+                  CanUserAddRows="False"
+                  IsReadOnly="True"
+                  GridLinesVisibility="Horizontal"
+                  RowHeight="30"
+                  FontSize="14"
+                  Margin="0,0,0,10">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="ID" Binding="{Binding ProductId}" Width="50"/>
+                <DataGridTextColumn Header="Наименование" Binding="{Binding Name}" Width="200"/>
+                <DataGridTextColumn Header="Категория" Binding="{Binding Category}" Width="120"/>
+                <DataGridTextColumn Header="Производитель" Binding="{Binding Manufacturer}" Width="150"/>
+                <DataGridTextColumn Header="Артикул" Binding="{Binding PartNumber}" Width="100"/>
+                <DataGridTextColumn Header="Цена" Binding="{Binding UnitPrice, StringFormat={}{0:N2}}" Width="80"/>
+                <DataGridTextColumn Header="Количество" Binding="{Binding StockQuantity}" Width="80"/>
+                <DataGridCheckBoxColumn Header="Активен" Binding="{Binding IsActive}" Width="70"/>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <Border Grid.Row="2" 
+                BorderBrush="LightGray" 
+                BorderThickness="1" 
+                Padding="10"
+                Background="#F5F5F5">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Text="Выбран товар: " FontWeight="Bold" VerticalAlignment="Center"/>
+                <TextBlock Grid.Column="1" 
+                           Text="{Binding Selected.Name, FallbackValue='не выбран'}" 
+                           FontStyle="Italic"
+                           VerticalAlignment="Center"
+                           Margin="5,0,0,0"/>
+            </Grid>
+        </Border>
+    </Grid>
+</Window>
